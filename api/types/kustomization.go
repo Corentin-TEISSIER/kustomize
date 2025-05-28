@@ -315,7 +315,7 @@ func (k *Kustomization) CheckEmpty() error {
 	emptyKustomization.TypeMeta = k.TypeMeta
 
 	if reflect.DeepEqual(k, emptyKustomization) {
-		return fmt.Errorf("kustomization.yaml is empty")
+		return fmt.Errorf("kustomization file is empty")
 	}
 
 	return nil

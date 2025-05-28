@@ -36,6 +36,9 @@ type Loader interface {
 	// Root returns the root location for this Loader.
 	Root() string
 
+	// FileName returns the filename for this Loader.
+	RootFileName() string
+
 	// New returns Loader located at newRoot.
 	New(newRoot string) (Loader, error)
 

@@ -101,14 +101,24 @@ func LoadKustFile(ldr ifc.Loader) ([]byte, string, error) {
 	var content []byte
 	match := 0
 	var kustFileName string
-	for _, kf := range konfig.RecognizedKustomizationFileNames() {
-		c, err := ldr.Load(kf)
-		if err == nil {
-			match += 1
-			content = c
-			kustFileName = kf
+	if kustFileName = ldr.RootFileName(); kustFileName == "" {
+		for _, kf := range konfig.RecognizedKustomizationFileNames() {
+			c, err := ldr.Load(kf)
+			if err == nil {
+				match += 1
+				content = c
+				kustFileName = kf
+			}
+		}
+	} else {
+		match += 1
+		var err error
+		content, err = ldr.Load(kustFileName)
+		if err != nil {
+			return nil, "", err
 		}
 	}
+
 	switch match {
 	case 0:
 		return nil, "", NewErrMissingKustomization(ldr.Root())

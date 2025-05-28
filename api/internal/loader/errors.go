@@ -6,6 +6,7 @@ package loader
 import "sigs.k8s.io/kustomize/kyaml/errors"
 
 var (
-	ErrHTTP     = errors.Errorf("HTTP Error")
-	ErrRtNotDir = errors.Errorf("must build at directory")
+	ErrHTTP            = errors.Errorf("HTTP Error")
+	ErrRtNotDir        = errors.Errorf("must build at directory")
+	ErrRtNotDirNorFile = errors.Errorf("must build at directory or file")
 )

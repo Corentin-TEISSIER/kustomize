@@ -86,6 +86,9 @@ type FileLoader struct {
 	// paths relative to this directory.
 	root filesys.ConfirmedDir
 
+	// Kustomization root file name
+	kustRootFileName string
+
 	// Restricts behavior of Load function.
 	loadRestrictor LoadRestrictorFunc
 
@@ -121,6 +124,10 @@ func (fl *FileLoader) Root() string {
 	return fl.root.String()
 }
 
+func (fl *FileLoader) RootFileName() string {
+	return fl.kustRootFileName
+}
+
 func NewLoaderOrDie(
 	lr LoadRestrictorFunc,
 	fSys filesys.FileSystem, path string) *FileLoader {
@@ -144,6 +151,21 @@ func newLoaderAtConfirmedDir(
 		fSys:           fSys,
 		cloner:         cloner,
 		cleaner:        func() error { return nil },
+	}
+}
+
+// newLoaderAtFilePath returns a new FileLoader with giver root and filename
+func newLoaderAtConfirmedPath(lr LoadRestrictorFunc,
+	root filesys.ConfirmedDir, kustRootFileName string, fSys filesys.FileSystem,
+	referrer *FileLoader, cloner git.Cloner) *FileLoader {
+	return &FileLoader{
+		loadRestrictor:   lr,
+		root:             root,
+		kustRootFileName: kustRootFileName,
+		referrer:         referrer,
+		fSys:             fSys,
+		cloner:           cloner,
+		cleaner:          func() error { return nil },
 	}
 }
 
